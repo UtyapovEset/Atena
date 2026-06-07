@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebAtena")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d9823da110936c3101aab125ab96696440a2153")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a50970e5ae42c587e10e15822621674de714acd1")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebAtena")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebAtena")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

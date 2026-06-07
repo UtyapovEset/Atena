@@ -18,6 +18,8 @@ namespace WebAtena
             Console.WriteLine("Current dir: " + Directory.GetCurrentDirectory());
             Console.WriteLine("DB exists: " + File.Exists("AthenaFlowers.db"));
             Console.WriteLine("DB size: " + new FileInfo("AthenaFlowers.db").Length);
+            Console.WriteLine("DB path:");
+            Console.WriteLine(Path.GetFullPath("AthenaFlowers.db"));
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
                 options.Password.RequireDigit = false;
@@ -68,6 +70,14 @@ namespace WebAtena
             }
 
             CreateAdmin(app).GetAwaiter().GetResult();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                Console.WriteLine("Products: " + db.Products.Count());
+                Console.WriteLine("Categories: " + db.Categories.Count());
+            }
 
             app.Run();
         }
