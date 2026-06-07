@@ -1,13 +1,13 @@
-@model WebAtena.Models.Product
+п»ї@model WebAtena.Models.Product
 @using Microsoft.AspNetCore.Mvc.Rendering
 
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Добавление товара";
+    ViewData["Title"] = "Р”РѕР±Р°РІР»РµРЅРёРµ С‚РѕРІР°СЂР°";
 }
 
 <div class="container pt-4">
-    <h2 class="mb-4" style="color: white;">Добавление нового товара</h2>
+    <h2 class="mb-4" style="color: white;">Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ С‚РѕРІР°СЂР°</h2>
 
     <form method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
@@ -15,73 +15,73 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label asp-for="Name" class="form-label">Название *</label>
+                    <label asp-for="Name" class="form-label">РќР°Р·РІР°РЅРёРµ *</label>
                     <input asp-for="Name" class="form-control" required />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="ShortDescription" class="form-label">Краткое описание</label>
+                    <label asp-for="ShortDescription" class="form-label">РљСЂР°С‚РєРѕРµ РѕРїРёСЃР°РЅРёРµ</label>
                     <textarea asp-for="ShortDescription" class="form-control" rows="3"></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Description" class="form-label">Полное описание</label>
+                    <label asp-for="Description" class="form-label">РџРѕР»РЅРѕРµ РѕРїРёСЃР°РЅРёРµ</label>
                     <textarea asp-for="Description" class="form-control" rows="5"></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Price" class="form-label">Цена *</label>
+                    <label asp-for="Price" class="form-label">Р¦РµРЅР° *</label>
                     <input asp-for="Price" class="form-control" type="number" step="0.01" required />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Stock" class="form-label">Количество на складе *</label>
+                    <label asp-for="Stock" class="form-label">РљРѕР»РёС‡РµСЃС‚РІРѕ РЅР° СЃРєР»Р°РґРµ *</label>
                     <input asp-for="Stock" class="form-control" type="number" min="0" value="0" required />
-                    <small class="text-muted">Если 0 - товар будет отображаться как "Нет в наличии"</small>
+                    <small class="text-muted">Р•СЃР»Рё 0 - С‚РѕРІР°СЂ Р±СѓРґРµС‚ РѕС‚РѕР±СЂР°Р¶Р°С‚СЊСЃСЏ РєР°Рє "РќРµС‚ РІ РЅР°Р»РёС‡РёРё"</small>
                     <span asp-validation-for="Stock" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="CategoryId" class="form-label">Категория *</label>
+                    <label asp-for="CategoryId" class="form-label">РљР°С‚РµРіРѕСЂРёСЏ *</label>
                     <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
-                        <option value="">-- Выберите категорию --</option>
+                        <option value="">-- Р’С‹Р±РµСЂРёС‚Рµ РєР°С‚РµРіРѕСЂРёСЋ --</option>
                     </select>
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Изображение</label>
+                    <label class="form-label">РР·РѕР±СЂР°Р¶РµРЅРёРµ</label>
                     <input type="file" name="image" class="form-control" accept="image/*" />
-                    <small class="text-muted">Поддерживаются форматы: JPG, PNG, GIF</small>
+                    <small class="text-muted">РџРѕРґРґРµСЂР¶РёРІР°СЋС‚СЃСЏ С„РѕСЂРјР°С‚С‹: JPG, PNG, GIF</small>
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Добавить товар</button>
-                    <a href="/Admin/Products" class="btn btn-outline-primary ms-2">Отмена</a>
+                    <button type="submit" class="btn btn-primary">Р”РѕР±Р°РІРёС‚СЊ С‚РѕРІР°СЂ</button>
+                    <a href="/Admin/Products" class="btn btn-outline-primary ms-2">РћС‚РјРµРЅР°</a>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="card" style="background: #41414f; border: 1px solid #334155;">
                     <div class="card-header" style="background: rgba(76, 175, 80, 0.2); border-bottom: 2px solid #4caf50;">
-                        <h5 class="mb-0" style="color: white !important;"><i class="bi bi-info-circle"></i> Подсказка</h5>
+                        <h5 class="mb-0" style="color: white !important;"><i class="bi bi-info-circle"></i> РџРѕРґСЃРєР°Р·РєР°</h5>
                     </div>
                     <div class="card-body">
-                        <p class="mb-2" style="color: #ffffff !important;"><strong>Как заполнять поля:</strong></p>
+                        <p class="mb-2" style="color: #ffffff !important;"><strong>РљР°Рє Р·Р°РїРѕР»РЅСЏС‚СЊ РїРѕР»СЏ:</strong></p>
                         <ul class="small" style="color: #ffffff;">
-                            <li><strong>Название</strong> - основное наименование товара</li>
-                            <li><strong>Краткое описание</strong> - отображается в карточке товара</li>
-                            <li><strong>Полное описание</strong> - подробная информация на странице товара</li>
-                            <li><strong>Цена</strong> - стоимость в рублях</li>
-                            <li><strong>Количество на складе</strong> - остаток товара</li>
-                            <li><strong>Категория</strong> - раздел каталога</li>
-                            <li><strong>Изображение</strong> - фото товара (рекомендуемый размер 500x500)</li>
+                            <li><strong>РќР°Р·РІР°РЅРёРµ</strong> - РѕСЃРЅРѕРІРЅРѕРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ С‚РѕРІР°СЂР°</li>
+                            <li><strong>РљСЂР°С‚РєРѕРµ РѕРїРёСЃР°РЅРёРµ</strong> - РѕС‚РѕР±СЂР°Р¶Р°РµС‚СЃСЏ РІ РєР°СЂС‚РѕС‡РєРµ С‚РѕРІР°СЂР°</li>
+                            <li><strong>РџРѕР»РЅРѕРµ РѕРїРёСЃР°РЅРёРµ</strong> - РїРѕРґСЂРѕР±РЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ РЅР° СЃС‚СЂР°РЅРёС†Рµ С‚РѕРІР°СЂР°</li>
+                            <li><strong>Р¦РµРЅР°</strong> - СЃС‚РѕРёРјРѕСЃС‚СЊ РІ СЂСѓР±Р»СЏС…</li>
+                            <li><strong>РљРѕР»РёС‡РµСЃС‚РІРѕ РЅР° СЃРєР»Р°РґРµ</strong> - РѕСЃС‚Р°С‚РѕРє С‚РѕРІР°СЂР°</li>
+                            <li><strong>РљР°С‚РµРіРѕСЂРёСЏ</strong> - СЂР°Р·РґРµР» РєР°С‚Р°Р»РѕРіР°</li>
+                            <li><strong>РР·РѕР±СЂР°Р¶РµРЅРёРµ</strong> - С„РѕС‚Рѕ С‚РѕРІР°СЂР° (СЂРµРєРѕРјРµРЅРґСѓРµРјС‹Р№ СЂР°Р·РјРµСЂ 500x500)</li>
                         </ul>
                         <hr style="border-color: rgba(255,255,255,0.3);">
                         <p class="small mb-0" style="color: #ffffff;">
-                            <i class="bi bi-cart-check"></i> При оформлении заказа количество товара уменьшится автоматически.
+                            <i class="bi bi-cart-check"></i> РџСЂРё РѕС„РѕСЂРјР»РµРЅРёРё Р·Р°РєР°Р·Р° РєРѕР»РёС‡РµСЃС‚РІРѕ С‚РѕРІР°СЂР° СѓРјРµРЅСЊС€РёС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё.
                         </p>
                     </div>
                 </div>

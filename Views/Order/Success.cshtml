@@ -1,6 +1,6 @@
-@model WebAtena.Models.Order
+п»ї@model WebAtena.Models.Order
 @{
-    ViewData["Title"] = "Заказ оформлен";
+    ViewData["Title"] = "Р—Р°РєР°Р· РѕС„РѕСЂРјР»РµРЅ";
     var culture = new System.Globalization.CultureInfo("ru-RU");
 }
 
@@ -20,31 +20,31 @@
                         <i class="bi bi-check-circle-fill" style="font-size: 6rem; color: #4caf50;"></i>
                     </div>
 
-                    <h2 class="mb-3" style="color: #4caf50;">Спасибо за заказ!</h2>
+                    <h2 class="mb-3" style="color: #4caf50;">РЎРїР°СЃРёР±Рѕ Р·Р° Р·Р°РєР°Р·!</h2>
 
                     @if (Model != null)
                     {
-                        <p class="lead fs-4">Номер вашего заказа: <strong class="text-white">@Model.OrderNumber</strong></p>
+                        <p class="lead fs-4">РќРѕРјРµСЂ РІР°С€РµРіРѕ Р·Р°РєР°Р·Р°: <strong class="text-white">@Model.OrderNumber</strong></p>
 
                         @if (Model.Items != null && Model.Items.Any())
                         {
                             var total = Model.Items.Sum(i => i.Quantity * i.Price);
                             <p class="fs-3 fw-bold" style="color: #e91e63;">
-                                Сумма заказа: @total.ToString("C", culture)
+                                РЎСѓРјРјР° Р·Р°РєР°Р·Р°: @total.ToString("C", culture)
                             </p>
                         }
                     }
 
                     <p class="mb-4" style="color: var(--text-muted); font-size: 1.1rem;">
-                        Наш менеджер свяжется с вами в ближайшее время для подтверждения.
+                        РќР°С€ РјРµРЅРµРґР¶РµСЂ СЃРІСЏР¶РµС‚СЃСЏ СЃ РІР°РјРё РІ Р±Р»РёР¶Р°Р№С€РµРµ РІСЂРµРјСЏ РґР»СЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ.
                     </p>
 
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                         <a href="/Catalog" class="btn btn-primary btn-lg px-4">
-                            <i class="bi bi-grid-3x3-gap"></i> Продолжить покупки
+                            <i class="bi bi-grid-3x3-gap"></i> РџСЂРѕРґРѕР»Р¶РёС‚СЊ РїРѕРєСѓРїРєРё
                         </a>
                         <a href="/" class="btn btn-outline-primary btn-lg px-4">
-                            <i class="bi bi-house"></i> На главную
+                            <i class="bi bi-house"></i> РќР° РіР»Р°РІРЅСѓСЋ
                         </a>
                     </div>
                 </div>

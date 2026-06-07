@@ -1,39 +1,39 @@
-@model IEnumerable<WebAtena.Models.ActionLog>
+п»ї@model IEnumerable<WebAtena.Models.ActionLog>
 
 @{
-    ViewData["Title"] = "Логи действий";
+    ViewData["Title"] = "Р›РѕРіРё РґРµР№СЃС‚РІРёР№";
     Layout = "_Layout";
     string currentRole = ViewBag.RoleFilter ?? "All";
     string currentSearch = ViewBag.SearchTerm ?? "";
 }
 
 <div class="container pt-4">
-    <h2 class="mb-4" style="color: white;">Логи действий пользователей</h2>
+    <h2 class="mb-4" style="color: white;">Р›РѕРіРё РґРµР№СЃС‚РІРёР№ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№</h2>
 
     <div class="row mb-4">
         <div class="col-12">
             <form method="get" class="d-flex gap-3 flex-wrap align-items-center">
                 <a href="/Admin/Dashboard" class="btn btn-outline-primary">
-                    <i class="bi bi-arrow-left"></i> Назад
+                    <i class="bi bi-arrow-left"></i> РќР°Р·Р°Рґ
                 </a>
 
                 <select name="roleFilter" class="form-select w-auto">
-                    <option value="All" selected="@(currentRole == "All")">Все роли</option>
-                    <option value="Admin" selected="@(currentRole == "Admin")">Администраторы</option>
-                    <option value="Employee" selected="@(currentRole == "Employee")">Сотрудники</option>
-                    <option value="Customer" selected="@(currentRole == "Customer")">Покупатели</option>
+                    <option value="All" selected="@(currentRole == "All")">Р’СЃРµ СЂРѕР»Рё</option>
+                    <option value="Admin" selected="@(currentRole == "Admin")">РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂС‹</option>
+                    <option value="Employee" selected="@(currentRole == "Employee")">РЎРѕС‚СЂСѓРґРЅРёРєРё</option>
+                    <option value="Customer" selected="@(currentRole == "Customer")">РџРѕРєСѓРїР°С‚РµР»Рё</option>
                 </select>
 
                 <input type="text" name="search" class="form-control" style="max-width: 350px;"
-                       placeholder="Поиск по имени, почте или логину..." value="@currentSearch" />
+                       placeholder="РџРѕРёСЃРє РїРѕ РёРјРµРЅРё, РїРѕС‡С‚Рµ РёР»Рё Р»РѕРіРёРЅСѓ..." value="@currentSearch" />
 
                 <button type="submit" class="btn btn-primary px-4">
-                    <i class="bi bi-search"></i> Найти
+                    <i class="bi bi-search"></i> РќР°Р№С‚Рё
                 </button>
 
                 @if (!string.IsNullOrEmpty(currentSearch) || currentRole != "All")
                 {
-                    <a href="/Admin/Logs" class="btn btn-outline-secondary">Сбросить</a>
+                    <a href="/Admin/Logs" class="btn btn-outline-secondary">РЎР±СЂРѕСЃРёС‚СЊ</a>
                 }
             </form>
         </div>
@@ -41,23 +41,23 @@
 
     @if (!Model.Any())
     {
-        <div class="alert alert-info">По вашему запросу не найдено ни одной записи.</div>
+        <div class="alert alert-info">РџРѕ РІР°С€РµРјСѓ Р·Р°РїСЂРѕСЃСѓ РЅРµ РЅР°Р№РґРµРЅРѕ РЅРё РѕРґРЅРѕР№ Р·Р°РїРёСЃРё.</div>
     }
     else
     {
         <div class="card" style="background: rgba(30, 41, 59, 0.5); border: 1px solid #334155;">
             <div class="card-header" style="background: rgba(33, 150, 243, 0.2); border-bottom: 2px solid #2196f3;">
-                <h5 class="mb-0" style="color: white !important;">История действий</h5>
+                <h5 class="mb-0" style="color: white !important;">РСЃС‚РѕСЂРёСЏ РґРµР№СЃС‚РІРёР№</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover text-white">
                         <thead>
                             <tr>
-                                <th>Дата</th>
-                                <th>Пользователь</th>
-                                <th>Действие</th>
-                                <th>Описание</th>
+                                <th>Р”Р°С‚Р°</th>
+                                <th>РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ</th>
+                                <th>Р”РµР№СЃС‚РІРёРµ</th>
+                                <th>РћРїРёСЃР°РЅРёРµ</th>
                             </tr>
                         </thead>
                         <tbody>

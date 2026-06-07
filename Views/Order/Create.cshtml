@@ -1,10 +1,10 @@
-@model WebAtena.Models.Order
+п»ї@model WebAtena.Models.Order
 @{
-    ViewData["Title"] = "Оформление заказа";
+    ViewData["Title"] = "РћС„РѕСЂРјР»РµРЅРёРµ Р·Р°РєР°Р·Р°";
 }
 
 <div class="container pt-5">
-    <h2 class="mb-4 text-white fw-bold">Оформление заказа</h2>
+    <h2 class="mb-4 text-white fw-bold">РћС„РѕСЂРјР»РµРЅРёРµ Р·Р°РєР°Р·Р°</h2>
 
     @if (TempData["Error"] != null)
     {
@@ -16,19 +16,19 @@
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
         <div class="row g-4">
-            <!-- ЛЕВАЯ КОЛОНКА -->
+            <!-- Р›Р•Р’РђРЇ РљРћР›РћРќРљРђ -->
             <div class="col-md-6">
                 <div class="card shadow-lg border-0">
 
                     <div class="card-header bg-transparent border-bottom border-danger">
-                        <h5 class="mb-0 text-white fw-semibold">Контактные данные</h5>
+                        <h5 class="mb-0 text-white fw-semibold">РљРѕРЅС‚Р°РєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ</h5>
                     </div>
 
                     <div class="card-body text-light">
 
                         <div class="mb-3">
                             <label asp-for="CustomerName" class="form-label text-light">
-                                Ваше имя <span class="text-danger">*</span>
+                                Р’Р°С€Рµ РёРјСЏ <span class="text-danger">*</span>
                             </label>
                             <input asp-for="CustomerName" class="form-control" required />
                             <span asp-validation-for="CustomerName" class="text-danger"></span>
@@ -36,7 +36,7 @@
 
                         <div class="mb-3">
                             <label asp-for="Phone" class="form-label text-light">
-                                Телефон <span class="text-danger">*</span>
+                                РўРµР»РµС„РѕРЅ <span class="text-danger">*</span>
                             </label>
                             <input asp-for="Phone" class="form-control" required placeholder="+7 (___) ___-__-__" />
                             <span asp-validation-for="Phone" class="text-danger"></span>
@@ -49,41 +49,41 @@
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Comment" class="form-label text-light">Комментарий к заказу</label>
-                            <textarea asp-for="Comment" class="form-control" rows="4" placeholder="Ваши пожелания..."></textarea>
+                            <label asp-for="Comment" class="form-label text-light">РљРѕРјРјРµРЅС‚Р°СЂРёР№ Рє Р·Р°РєР°Р·Сѓ</label>
+                            <textarea asp-for="Comment" class="form-control" rows="4" placeholder="Р’Р°С€Рё РїРѕР¶РµР»Р°РЅРёСЏ..."></textarea>
                         </div>
 
                         <div class="d-grid gap-2 mt-4">
                             <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="bi bi-check-circle"></i> Подтвердить заказ
+                                <i class="bi bi-check-circle"></i> РџРѕРґС‚РІРµСЂРґРёС‚СЊ Р·Р°РєР°Р·
                             </button>
 
                             <a href="/Cart" class="btn btn-outline-primary">
-                                <i class="bi bi-arrow-left"></i> Вернуться в корзину
+                                <i class="bi bi-arrow-left"></i> Р’РµСЂРЅСѓС‚СЊСЃСЏ РІ РєРѕСЂР·РёРЅСѓ
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ПРАВАЯ КОЛОНКА -->
+            <!-- РџР РђР’РђРЇ РљРћР›РћРќРљРђ -->
             <div class="col-md-6">
                 <div class="card shadow-lg border-0">
 
                     <div class="card-header bg-transparent border-bottom border-info">
-                        <h5 class="mb-0 text-white fw-semibold">Информация</h5>
+                        <h5 class="mb-0 text-white fw-semibold">РРЅС„РѕСЂРјР°С†РёСЏ</h5>
                     </div>
 
                     <div class="card-body text-light">
 
                         <p class="text-light">
-                            Мы работаем ежедневно с 9:00 до 20:00.
+                            РњС‹ СЂР°Р±РѕС‚Р°РµРј РµР¶РµРґРЅРµРІРЅРѕ СЃ 9:00 РґРѕ 20:00.
                         </p>
 
                         <hr class="border-secondary">
 
                         <p class="text-light">
-                            <i class="bi bi-shield-lock"></i> Все данные защищены
+                            <i class="bi bi-shield-lock"></i> Р’СЃРµ РґР°РЅРЅС‹Рµ Р·Р°С‰РёС‰РµРЅС‹
                         </p>
                     </div>
                 </div>

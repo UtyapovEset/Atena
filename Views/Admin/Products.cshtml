@@ -1,13 +1,13 @@
-@model IEnumerable<WebAtena.Models.Product>
+п»ї@model IEnumerable<WebAtena.Models.Product>
 @{
-    ViewData["Title"] = "Управление товарами";
+    ViewData["Title"] = "РЈРїСЂР°РІР»РµРЅРёРµ С‚РѕРІР°СЂР°РјРё";
     Layout = "_Layout";
     bool isAdmin = ViewBag.IsAdmin ?? false;
     var culture = new System.Globalization.CultureInfo("ru-RU");
 }
 
 <div class="container">
-    <h2 class="mb-4">Управление товарами</h2>
+    <h2 class="mb-4">РЈРїСЂР°РІР»РµРЅРёРµ С‚РѕРІР°СЂР°РјРё</h2>
 
     @if (TempData["Success"] != null)
     {
@@ -29,17 +29,17 @@
         @if (isAdmin)
         {
             <a href="/Admin/CreateProduct" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Добавить товар
+                <i class="bi bi-plus-circle"></i> Р”РѕР±Р°РІРёС‚СЊ С‚РѕРІР°СЂ
             </a>
         }
         <a href="/Admin/Dashboard" class="btn btn-secondary">
-            <i class="bi bi-arrow-left"></i> Назад в панель
+            <i class="bi bi-arrow-left"></i> РќР°Р·Р°Рґ РІ РїР°РЅРµР»СЊ
         </a>
     </div>
 
     @if (!Model.Any())
     {
-        <div class="alert alert-info">Товаров пока нет.</div>
+        <div class="alert alert-info">РўРѕРІР°СЂРѕРІ РїРѕРєР° РЅРµС‚.</div>
     }
     else
     {
@@ -47,13 +47,13 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Изображение</th>
-                        <th>Название</th>
-                        <th>Категория</th>
-                        <th>Цена</th>
-                        <th>Количество</th>
-                        <th>Статус</th>
-                        <th>Действия</th>
+                        <th>РР·РѕР±СЂР°Р¶РµРЅРёРµ</th>
+                        <th>РќР°Р·РІР°РЅРёРµ</th>
+                        <th>РљР°С‚РµРіРѕСЂРёСЏ</th>
+                        <th>Р¦РµРЅР°</th>
+                        <th>РљРѕР»РёС‡РµСЃС‚РІРѕ</th>
+                        <th>РЎС‚Р°С‚СѓСЃ</th>
+                        <th>Р”РµР№СЃС‚РІРёСЏ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,33 +67,33 @@
                                 }
                                 else
                                 {
-                                    <span class="badge bg-secondary">Нет фото</span>
+                                    <span class="badge bg-secondary">РќРµС‚ С„РѕС‚Рѕ</span>
                                 }
                             </td>
                             <td><strong>@product.Name</strong></td>
-                            <td>@(product.Category?.Name ?? "Без категории")</td>
+                            <td>@(product.Category?.Name ?? "Р‘РµР· РєР°С‚РµРіРѕСЂРёРё")</td>
                             <td>@product.Price.ToString("C", culture)</td>
-                            <td>@product.Stock шт.</td>
+                            <td>@product.Stock С€С‚.</td>
                             <td>
                                 @if (product.Stock > 0)
                                 {
-                                    <span class="badge bg-success">В наличии</span>
+                                    <span class="badge bg-success">Р’ РЅР°Р»РёС‡РёРё</span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-danger">Нет в наличии</span>
+                                    <span class="badge bg-danger">РќРµС‚ РІ РЅР°Р»РёС‡РёРё</span>
                                 }
                             </td>
                             <td>
                                 <a href="/Admin/EditProduct/@product.Id" class="btn btn-primary btn-sm">
-                                    <i class="bi bi-pencil"></i> Ред.
+                                    <i class="bi bi-pencil"></i> Р РµРґ.
                                 </a>
                                 @if (isAdmin)
                                 {
-                                    <form method="post" action="/Admin/DeleteProduct/@product.Id" style="display:inline;" onsubmit="return confirm('Удалить товар «@product.Name»?');">
+                                    <form method="post" action="/Admin/DeleteProduct/@product.Id" style="display:inline;" onsubmit="return confirm('РЈРґР°Р»РёС‚СЊ С‚РѕРІР°СЂ В«@product.NameВ»?');">
                                         @Html.AntiForgeryToken()
                                         <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i> Удал.
+                                            <i class="bi bi-trash"></i> РЈРґР°Р».
                                         </button>
                                     </form>
                                 }

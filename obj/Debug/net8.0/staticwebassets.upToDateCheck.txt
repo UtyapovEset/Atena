@@ -9,6 +9,7 @@ wwwroot\images\products\9d80b407-92f0-4dd1-8834-0cf6f39f178e.jpg
 wwwroot\images\products\a229100e-123c-4afb-943a-6877275aa1ff.png
 wwwroot\images\products\ab238753-8330-4a43-a082-275b007bbe4f.jpg
 wwwroot\images\products\ac82b462-c192-4e7f-b735-9649e5fe4e41.png
+wwwroot\images\products\bcf1faba-4e1b-4597-b45a-0c6c8d05ccc3.png
 wwwroot\images\products\c2985d14-7558-4d48-a597-b1378352295e.png
 wwwroot\images\w_logo.png
 wwwroot\js\site.js

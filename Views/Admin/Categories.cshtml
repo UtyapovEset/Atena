@@ -1,11 +1,11 @@
-@model IEnumerable<WebAtena.Models.Category>
+п»ї@model IEnumerable<WebAtena.Models.Category>
 @{
-    ViewData["Title"] = "Управление категориями";
+    ViewData["Title"] = "РЈРїСЂР°РІР»РµРЅРёРµ РєР°С‚РµРіРѕСЂРёСЏРјРё";
     Layout = "_Layout";
 }
 
 <div class="container pt-4">
-    <h2 class="mb-4" style="color: white;">Управление категориями</h2>
+    <h2 class="mb-4" style="color: white;">РЈРїСЂР°РІР»РµРЅРёРµ РєР°С‚РµРіРѕСЂРёСЏРјРё</h2>
 
     @if (TempData["Success"] != null)
     {
@@ -20,20 +20,20 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0 text-white">Добавить категорию</h5>
+                    <h5 class="mb-0 text-white">Р”РѕР±Р°РІРёС‚СЊ РєР°С‚РµРіРѕСЂРёСЋ</h5>
                 </div>
                 <div class="card-body text-light">
                     <form method="post" action="/Admin/CreateCategory">
                         @Html.AntiForgeryToken()
                         <div class="mb-3">
-                            <label class="form-label text-white">Название</label>
+                            <label class="form-label text-white">РќР°Р·РІР°РЅРёРµ</label>
                             <input type="text" name="Name" class="form-control text-light" required />
                         </div>
                         <div class="mb-3">
-                            <label class="form-label text-white">Описание</label>
+                            <label class="form-label text-white">РћРїРёСЃР°РЅРёРµ</label>
                             <textarea name="Description" class="form-control text-light" rows="4"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-success">Добавить</button>
+                        <button type="submit" class="btn btn-success">Р”РѕР±Р°РІРёС‚СЊ</button>
                     </form>
                 </div>
             </div>
@@ -42,12 +42,12 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0">Список категорий</h5>
+                    <h5 class="mb-0">РЎРїРёСЃРѕРє РєР°С‚РµРіРѕСЂРёР№</h5>
                 </div>
                 <div class="card-body">
                     @if (!Model.Any())
                     {
-                        <p class="text-muted">Категорий пока нет</p>
+                        <p class="text-muted">РљР°С‚РµРіРѕСЂРёР№ РїРѕРєР° РЅРµС‚</p>
                     }
                     else
                     {
@@ -55,10 +55,10 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Название</th>
-                                        <th>Описание</th>
-                                        <th>Товаров</th>
-                                        <th>Действия</th>
+                                        <th>РќР°Р·РІР°РЅРёРµ</th>
+                                        <th>РћРїРёСЃР°РЅРёРµ</th>
+                                        <th>РўРѕРІР°СЂРѕРІ</th>
+                                        <th>Р”РµР№СЃС‚РІРёСЏ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -70,9 +70,9 @@
                                             <td>@(cat.Products?.Count ?? 0)</td>
                                             <td>
                                                 <form method="post" action="/Admin/DeleteCategory/@cat.Id"
-                                                      onsubmit="return confirm('Удалить категорию?');" style="display:inline;">
+                                                      onsubmit="return confirm('РЈРґР°Р»РёС‚СЊ РєР°С‚РµРіРѕСЂРёСЋ?');" style="display:inline;">
                                                     @Html.AntiForgeryToken()
-                                                    <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm">РЈРґР°Р»РёС‚СЊ</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -87,6 +87,6 @@
     </div>
 
     <div class="mt-3">
-        <a href="/Admin/Dashboard" class="btn btn-secondary">Назад</a>
+        <a href="/Admin/Dashboard" class="btn btn-secondary">РќР°Р·Р°Рґ</a>
     </div>
 </div>

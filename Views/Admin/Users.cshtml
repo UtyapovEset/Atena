@@ -1,13 +1,13 @@
-@model IEnumerable<WebAtena.Models.UserViewModel>
+п»ї@model IEnumerable<WebAtena.Models.UserViewModel>
 @{
-    ViewData["Title"] = "Управление пользователями";
+    ViewData["Title"] = "РЈРїСЂР°РІР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРјРё";
     Layout = "_Layout";
     string currentRole = ViewBag.RoleFilter ?? "All";
     string currentSearch = ViewBag.SearchTerm ?? "";
 }
 
 <div class="container pt-4">
-    <h2 class="mb-4">Управление пользователями</h2>
+    <h2 class="mb-4">РЈРїСЂР°РІР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРјРё</h2>
 
     @if (TempData["Success"] != null)
     {
@@ -22,17 +22,17 @@
         <div class="col-md-8">
             <form method="get" class="d-flex gap-2">
                 <select name="roleFilter" class="form-select" style="width: 220px;">
-                    <option value="All" selected="@(currentRole == "All")">Все роли</option>
-                    <option value="Admin" selected="@(currentRole == "Admin")">Администраторы</option>
-                    <option value="Employee" selected="@(currentRole == "Employee")">Сотрудники</option>
-                    <option value="Customer" selected="@(currentRole == "Customer")">Покупатели</option>
+                    <option value="All" selected="@(currentRole == "All")">Р’СЃРµ СЂРѕР»Рё</option>
+                    <option value="Admin" selected="@(currentRole == "Admin")">РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂС‹</option>
+                    <option value="Employee" selected="@(currentRole == "Employee")">РЎРѕС‚СЂСѓРґРЅРёРєРё</option>
+                    <option value="Customer" selected="@(currentRole == "Customer")">РџРѕРєСѓРїР°С‚РµР»Рё</option>
                 </select>
-                <input type="text" name="search" class="form-control" placeholder="Поиск по логину, ФИО или email" value="@currentSearch" />
-                <button type="submit" class="btn btn-primary">Фильтровать</button>
+                <input type="text" name="search" class="form-control" placeholder="РџРѕРёСЃРє РїРѕ Р»РѕРіРёРЅСѓ, Р¤РРћ РёР»Рё email" value="@currentSearch" />
+                <button type="submit" class="btn btn-primary">Р¤РёР»СЊС‚СЂРѕРІР°С‚СЊ</button>
             </form>
         </div>
         <div class="col-md-4 text-end">
-            <a href="/Admin/CreateUser" class="btn btn-success">+ Создать пользователя</a>
+            <a href="/Admin/CreateUser" class="btn btn-success">+ РЎРѕР·РґР°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</a>
         </div>
     </div>
 
@@ -46,12 +46,12 @@
                                 <th style="width: 50px;">
                                     <input type="checkbox" id="selectAll">
                                 </th>
-                                <th>Логин</th>
-                                <th>ФИО</th>
+                                <th>Р›РѕРіРёРЅ</th>
+                                <th>Р¤РРћ</th>
                                 <th>Email</th>
-                                <th>Телефон</th>
-                                <th>Роль</th>
-                                <th>Дата регистрации</th>
+                                <th>РўРµР»РµС„РѕРЅ</th>
+                                <th>Р РѕР»СЊ</th>
+                                <th>Р”Р°С‚Р° СЂРµРіРёСЃС‚СЂР°С†РёРё</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,12 +79,12 @@
 
                 <div class="mt-3 d-flex gap-3 align-items-center">
                     <select id="bulkRole" name="role" class="form-select" style="width: 200px;">
-                        <option value="Customer">Покупатель</option>
-                        <option value="Employee">Сотрудник</option>
-                        <option value="Admin">Администратор</option>
+                        <option value="Customer">РџРѕРєСѓРїР°С‚РµР»СЊ</option>
+                        <option value="Employee">РЎРѕС‚СЂСѓРґРЅРёРє</option>
+                        <option value="Admin">РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ</option>
                     </select>
-                    <button type="button" onclick="submitBulkAction('/Admin/BulkUpdateRole')" class="btn btn-warning">Сменить роль у выбранных</button>
-                    <button type="button" onclick="submitBulkAction('/Admin/BulkDeleteUsers')" class="btn btn-danger">Удалить выбранных</button>
+                    <button type="button" onclick="submitBulkAction('/Admin/BulkUpdateRole')" class="btn btn-warning">РЎРјРµРЅРёС‚СЊ СЂРѕР»СЊ Сѓ РІС‹Р±СЂР°РЅРЅС‹С…</button>
+                    <button type="button" onclick="submitBulkAction('/Admin/BulkDeleteUsers')" class="btn btn-danger">РЈРґР°Р»РёС‚СЊ РІС‹Р±СЂР°РЅРЅС‹С…</button>
                 </div>
             </form>
         </div>
@@ -104,15 +104,15 @@
         function submitBulkAction(url) {
             const ids = getSelectedIds();
             if (ids.length === 0) {
-                alert("Выберите пользователей");
+                alert("Р’С‹Р±РµСЂРёС‚Рµ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№");
                 return;
             }
 
             if (url.includes('Delete')) {
-                if (!confirm(`Удалить ${ids.length} пользователей?`)) return;
+                if (!confirm(`РЈРґР°Р»РёС‚СЊ ${ids.length} РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№?`)) return;
             } else {
                 const role = document.getElementById('bulkRole').value;
-                if (!confirm(`Изменить роль у ${ids.length} пользователей на "${role}"?`)) return;
+                if (!confirm(`РР·РјРµРЅРёС‚СЊ СЂРѕР»СЊ Сѓ ${ids.length} РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№ РЅР° "${role}"?`)) return;
             }
 
             const form = document.getElementById('bulkForm');
