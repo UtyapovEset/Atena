@@ -15,6 +15,10 @@ namespace WebAtena
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
      options.UseSqlite(connectionString));
 
+            Console.WriteLine("Current dir: " + Directory.GetCurrentDirectory());
+            Console.WriteLine("DB exists: " + File.Exists("AthenaFlowers.db"));
+            Console.WriteLine("DB size: " + new FileInfo("AthenaFlowers.db").Length);
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 6;
