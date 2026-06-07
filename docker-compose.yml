@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  webatena:
+    build: .
+    container_name: webatena_app
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/AthenaFlowers.db
+      - AiServiceSettings__BaseUrl=https://bbavdlknd8hg61hqrbgd.containers.yandexcloud.net
+    volumes:
+      - ./data:/app/data
+      - ./wwwroot/images:/app/wwwroot/images
+    restart: unless-stopped
