@@ -12,11 +12,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Атэна Цветы</title>
+    <title>@ViewData["Title"] - РђС‚СЌРЅР° Р¦РІРµС‚С‹</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <canvas id="petalsCanvas"></canvas>
@@ -24,8 +24,8 @@
     <nav class="navbar navbar-expand-md navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <img src="/images/logotip.png" alt="Атэна">
-                <span>Атэна</span>
+                <img src="~/images/logotip.png" alt="РђС‚СЌРЅР°">
+                <span>РђС‚СЌРЅР°</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -33,62 +33,62 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Главная</a>
+                        <a class="nav-link" href="/">Р“Р»Р°РІРЅР°СЏ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Catalog">Каталог</a>
+                        <a class="nav-link" href="/Catalog">РљР°С‚Р°Р»РѕРі</a>
                     </li>
                 </ul>
 
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link position-relative" href="/Cart">
-                            <i class="bi bi-cart3"></i> Корзина
+                            <i class="bi bi-cart3"></i> РљРѕСЂР·РёРЅР°
                             <span class="cart-count" id="cartCount">0</span>
                         </a>
                     </li>
 
                     @if (isLoggedIn)
                     {
-                        <!-- Личный кабинет -->
+                        <!-- Р›РёС‡РЅС‹Р№ РєР°Р±РёРЅРµС‚ -->
                         <li class="nav-item">
                             <a class="nav-link" href="/Profile">
-                                <i class="bi bi-person-circle"></i> Кабинет
+                                <i class="bi bi-person-circle"></i> РљР°Р±РёРЅРµС‚
                             </a>
                         </li>
 
-                        <!-- Панель управления (только для сотрудников и админов) -->
+                        <!-- РџР°РЅРµР»СЊ СѓРїСЂР°РІР»РµРЅРёСЏ (С‚РѕР»СЊРєРѕ РґР»СЏ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ Рё Р°РґРјРёРЅРѕРІ) -->
                         @if (isEmployeeOrAdmin)
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                                    <i class="bi bi-gear-fill"></i> Панель
+                                    <i class="bi bi-gear-fill"></i> РџР°РЅРµР»СЊ
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark">
                                     @if (userRole == "Admin")
                                     {
-                                        <li><a class="dropdown-item" href="/Admin/Dashboard">Дашборд</a></li>
-                                        <li><a class="dropdown-item" href="/Admin/Products">Товары</a></li>
-                                        <li><a class="dropdown-item" href="/Admin/Orders">Заказы</a></li>
-                                        <li><a class="dropdown-item" href="/Admin/Categories">Категории</a></li>
-                                        <li><a class="dropdown-item" href="/Admin/Analytics">Аналитика</a></li>
-                                        <li><a class="dropdown-item" href="/Admin/Users">Пользователи</a></li>
-                                        <li><a class="dropdown-item" href="/Admin/Logs">Логи</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Dashboard">Р”Р°С€Р±РѕСЂРґ</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Products">РўРѕРІР°СЂС‹</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Orders">Р—Р°РєР°Р·С‹</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Categories">РљР°С‚РµРіРѕСЂРёРё</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Analytics">РђРЅР°Р»РёС‚РёРєР°</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Users">РџРѕР»СЊР·РѕРІР°С‚РµР»Рё</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Logs">Р›РѕРіРё</a></li>
                                     }
                                     else
                                     {
-                                        <li><a class="dropdown-item" href="/Employee/Dashboard">Дашборд</a></li>
-                                        <li><a class="dropdown-item" href="/Employee/Products">Товары</a></li>
-                                        <li><a class="dropdown-item" href="/Employee/Orders">Заказы</a></li>
+                                        <li><a class="dropdown-item" href="/Employee/Dashboard">Р”Р°С€Р±РѕСЂРґ</a></li>
+                                        <li><a class="dropdown-item" href="/Employee/Products">РўРѕРІР°СЂС‹</a></li>
+                                        <li><a class="dropdown-item" href="/Employee/Orders">Р—Р°РєР°Р·С‹</a></li>
                                     }
                                 </ul>
                             </li>
                         }
 
-                        <!-- Выход -->
+                        <!-- Р’С‹С…РѕРґ -->
                         <li class="nav-item">
                             <a class="nav-link text-danger" href="/Account/Logout">
-                                <i class="bi bi-box-arrow-right"></i> Выход
+                                <i class="bi bi-box-arrow-right"></i> Р’С‹С…РѕРґ
                             </a>
                         </li>
                     }
@@ -96,7 +96,7 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="/Account/Login">
-                                <i class="bi bi-box-arrow-in-right"></i> Вход
+                                <i class="bi bi-box-arrow-in-right"></i> Р’С…РѕРґ
                             </a>
                         </li>
                     }
@@ -114,26 +114,26 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5>
-                        <img src="/images/logotip.png" alt="Атэна" style="height: 40px; width: auto; margin-right: 10px; vertical-align: middle;">
-                        Атэна
+                        <img src="~/images/logotip.png" alt="РђС‚СЌРЅР°" style="height: 40px; width: auto; margin-right: 10px; vertical-align: middle;">
+                        РђС‚СЌРЅР°
                     </h5>
-                    <p>Свежие цветы с любовью</p>
+                    <p>РЎРІРµР¶РёРµ С†РІРµС‚С‹ СЃ Р»СЋР±РѕРІСЊСЋ</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p>Посёлок Дедуровка, 2</p>
-                    <p>Оренбургский район, Оренбургская область</p>
-                    <p>&copy; 2026 Тепличное хозяйство "Атэна"</p>
+                    <p>РџРѕСЃС‘Р»РѕРє Р”РµРґСѓСЂРѕРІРєР°, 2</p>
+                    <p>РћСЂРµРЅР±СѓСЂРіСЃРєРёР№ СЂР°Р№РѕРЅ, РћСЂРµРЅР±СѓСЂРіСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ</p>
+                    <p>&copy; 2026 РўРµРїР»РёС‡РЅРѕРµ С…РѕР·СЏР№СЃС‚РІРѕ "РђС‚СЌРЅР°"</p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Модальное окно добавления в корзину -->
+    <!-- РњРѕРґР°Р»СЊРЅРѕРµ РѕРєРЅРѕ РґРѕР±Р°РІР»РµРЅРёСЏ РІ РєРѕСЂР·РёРЅСѓ -->
     <div class="modal fade" id="addToCartModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content glass">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title" style="color: white;">Добавить в корзину</h5>
+                    <h5 class="modal-title" style="color: white;">Р”РѕР±Р°РІРёС‚СЊ РІ РєРѕСЂР·РёРЅСѓ</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body text-center">
@@ -143,7 +143,7 @@
                         <input type="number" id="modalQuantity" value="1" min="1" class="form-control text-center" style="width: 80px;">
                         <button class="btn btn-outline-primary" onclick="modalChangeQty(1)">+</button>
                     </div>
-                    <button class="btn btn-primary w-100" onclick="confirmAddToCart()">Добавить</button>
+                    <button class="btn btn-primary w-100" onclick="confirmAddToCart()">Р”РѕР±Р°РІРёС‚СЊ</button>
                 </div>
             </div>
         </div>

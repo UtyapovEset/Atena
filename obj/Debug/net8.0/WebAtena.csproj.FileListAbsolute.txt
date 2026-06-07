@@ -852,3 +852,4 @@ C:\Users\Есет\Desktop\WebAtenaРабочийПроектГарантия\Web
 C:\Users\Есет\Desktop\WebAtenaРабочийПроектГарантия\WebAtenaРабочийПроектГарантия\obj\Debug\net8.0\WebAtena.genruntimeconfig.cache
 C:\Users\Есет\Desktop\WebAtenaРабочийПроектГарантия\WebAtenaРабочийПроектГарантия\obj\Debug\net8.0\ref\WebAtena.dll
 C:\Users\Есет\Desktop\WebAtenaРабочийПроектГарантия\WebAtenaРабочийПроектГарантия\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Есет\Desktop\WebAtenaРабочийПроектГарантия\WebAtenaРабочийПроектГарантия\obj\Debug\net8.0\WebAtena.sourcelink.json
