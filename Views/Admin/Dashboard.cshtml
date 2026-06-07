@@ -1,0 +1,108 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Админ панель";
+}
+
+<div class="container pt-4">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold" style="color: #e91e63;">Панель управления</h1>
+            <p style="color: var(--text-muted);">Тепличное хозяйство "Атэна"</p>
+            <hr class="w-25 mx-auto" style="border-color: #e91e63;">
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="dashboard-stat">
+                <i class="bi bi-box-seam"></i>
+                <h3>@ViewBag.Products</h3>
+                <p>Товаров в каталоге</p>
+                <a href="/Admin/Products" class="btn btn-sm btn-outline-primary mt-3">Управление →</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-stat">
+                <i class="bi bi-cart-check"></i>
+                <h3>@ViewBag.Orders</h3>
+                <p>Всего заказов</p>
+                <a href="/Admin/Orders" class="btn btn-sm btn-outline-primary mt-3">Управление →</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-stat">
+                <i class="bi bi-tags"></i>
+                <h3>@ViewBag.Categories</h3>
+                <p>Категорий</p>
+                <a href="/Admin/Categories" class="btn btn-sm btn-outline-primary mt-3">Управление →</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-stat">
+                <i class="bi bi-currency-ruble"></i>
+                <h3>@ViewBag.TotalRevenue?.ToString("N0")</h3>
+                <p>Общая выручка</p>
+                <a href="/Admin/Analytics" class="btn btn-sm btn-outline-primary mt-3">Аналитика →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header" style="background: rgba(233, 30, 99, 0.2); border-bottom: 2px solid #e91e63;">
+                    <h5 class="mb-0" style="color: white;"><i class="bi bi-lightning-charge me-2"></i> Быстрые действия</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        <a href="/Admin/Products" class="btn btn-primary">
+                            <i class="bi bi-box me-2"></i> Управление товарами
+                        </a>
+                        <a href="/Admin/CreateProduct" class="btn btn-success">
+                            <i class="bi bi-plus-circle me-2"></i> Добавить товар
+                        </a>
+                        <a href="/Admin/Orders" class="btn btn-info">
+                            <i class="bi bi-cart me-2"></i> Просмотр заказов
+                        </a>
+                        <a href="/Admin/Categories" class="btn btn-warning">
+                            <i class="bi bi-tags me-2"></i> Управление категориями
+                        </a>
+                        <a href="/Admin/Analytics" class="btn btn-danger">
+                            <i class="bi bi-graph-up me-2"></i> Аналитика продаж
+                        </a>
+                        <a href="/Admin/Logs" class="btn btn-secondary">
+                            <i class="bi bi-journal-text me-2"></i> Логи действий
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header" style="background: rgba(233, 30, 99, 0.2); border-bottom: 2px solid #e91e63;">
+                    <h5 class="mb-0" style="color: white;"><i class="bi bi-info-circle me-2"></i> Информация</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <small style="color: var(--text-muted);">Дата последнего входа</small>
+                        <p class="mb-0" style="color: white;"><i class="bi bi-calendar3 me-2"></i> @DateTime.Now.ToString("dd MMMM yyyy, HH:mm")</p>
+                    </div>
+                    <div class="mb-3">
+                        <small style="color: var(--text-muted);">Активных заказов</small>
+                        <p class="mb-0" style="color: white;"><i class="bi bi-clock-history me-2"></i> @ViewBag.ActiveOrders</p>
+                    </div>
+                    <div class="mb-3">
+                        <small style="color: var(--text-muted);">Товары с низким остатком (≤5)</small>
+                        <p class="mb-0"><i class="bi bi-exclamation-triangle me-2" style="color: #e91e63;"></i> @ViewBag.LowStockProducts</p>
+                    </div>
+                    <hr style="border-color: rgba(255,255,255,0.1);">
+                    <div class="text-center mt-3">
+                        <a href="/Admin/Analytics" class="btn btn-outline-primary">
+                            <i class="bi bi-graph-up me-2"></i> Посмотреть аналитику
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

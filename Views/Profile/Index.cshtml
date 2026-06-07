@@ -1,0 +1,74 @@
+﻿@model WebAtena.ViewModels.ProfileViewModel
+@{
+    ViewData["Title"] = "Личный кабинет";
+    Layout = "_Layout";
+    bool isCustomer = Model.Role == "Customer";
+}
+
+<div class="container py-5">
+    <h2 class="mb-4">Личный кабинет</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card glass">
+                <div class="card-body">
+                    <form asp-action="Update" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+
+                        @if (!isCustomer)
+                        {
+                            <div class="mb-3">
+                                <label class="form-label">Логин</label>
+                                <input asp-for="UserName" class="form-control" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input asp-for="Email" class="form-control" readonly />
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label asp-for="FullName" class="form-label"></label>
+                            <input asp-for="FullName" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card glass">
+                <div class="card-body text-center">
+                    <a asp-action="ChangePassword" class="btn btn-outline-primary w-100 mb-2">Сменить пароль</a>
+
+                    @if (isCustomer)
+                    {
+                        <a asp-action="MyOrders" class="btn btn-outline-info w-100 mb-2">Мои заказы</a>
+                    }
+
+                    <a asp-action="Logout" asp-controller="Account" class="btn btn-danger w-100">Выйти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

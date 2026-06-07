@@ -1,0 +1,87 @@
+@model IEnumerable<WebAtena.Models.ActionLog>
+
+@{
+    ViewData["Title"] = "Логи действий";
+    Layout = "_Layout";
+    string currentRole = ViewBag.RoleFilter ?? "All";
+    string currentSearch = ViewBag.SearchTerm ?? "";
+}
+
+<div class="container pt-4">
+    <h2 class="mb-4" style="color: white;">Логи действий пользователей</h2>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <form method="get" class="d-flex gap-3 flex-wrap align-items-center">
+                <a href="/Admin/Dashboard" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left"></i> Назад
+                </a>
+
+                <select name="roleFilter" class="form-select w-auto">
+                    <option value="All" selected="@(currentRole == "All")">Все роли</option>
+                    <option value="Admin" selected="@(currentRole == "Admin")">Администраторы</option>
+                    <option value="Employee" selected="@(currentRole == "Employee")">Сотрудники</option>
+                    <option value="Customer" selected="@(currentRole == "Customer")">Покупатели</option>
+                </select>
+
+                <input type="text" name="search" class="form-control" style="max-width: 350px;"
+                       placeholder="Поиск по имени, почте или логину..." value="@currentSearch" />
+
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="bi bi-search"></i> Найти
+                </button>
+
+                @if (!string.IsNullOrEmpty(currentSearch) || currentRole != "All")
+                {
+                    <a href="/Admin/Logs" class="btn btn-outline-secondary">Сбросить</a>
+                }
+            </form>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">По вашему запросу не найдено ни одной записи.</div>
+    }
+    else
+    {
+        <div class="card" style="background: rgba(30, 41, 59, 0.5); border: 1px solid #334155;">
+            <div class="card-header" style="background: rgba(33, 150, 243, 0.2); border-bottom: 2px solid #2196f3;">
+                <h5 class="mb-0" style="color: white !important;">История действий</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover text-white">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Пользователь</th>
+                                <th>Действие</th>
+                                <th>Описание</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var log in Model)
+                            {
+                                <tr>
+                                    <td class="text-muted">@log.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                                    <td><strong>@log.UserName</strong></td>
+                                    <td>
+                                        <span class="badge @(log.Action == "CREATE_PRODUCT" ? "bg-success" :
+                                                                                                     log.Action == "EDIT_PRODUCT" ? "bg-warning" :
+                                                                                                     log.Action == "DELETE_PRODUCT" ? "bg-danger" :
+                                                                                                     log.Action == "UPDATE_ORDER_STATUS" ? "bg-info" :
+                                                                                                     "bg-secondary")">
+                                    @log.Action
+                                </span>
+                            </td>
+                            <td>@log.Description</td>
+                        </tr>
+                                                }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Аналитика и отчёты";
+    Layout = "_Layout";
+}
+
+<div class="container pt-4">
+    <h2 class="mb-4" style="color: white;">Аналитика продаж</h2>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card" style="background: rgba(76, 175, 80, 0.2); border-left: 4px solid #4caf50;">
+                <div class="card-body">
+                    <h5 style="color: #81c784 !important;">Общая выручка</h5>
+                    <h2 id="totalRevenue" class="display-5" style="color: white !important;">0 ₽</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="background: rgba(233, 30, 99, 0.2); border-left: 4px solid #e91e63;">
+                <div class="card-body">
+                    <h5 style="color: #f48fb1 !important;">Всего заказов</h5>
+                    <h2 id="totalOrders" class="display-5" style="color: white !important;">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="background: rgba(33, 150, 243, 0.2); border-left: 4px solid #2196f3;">
+                <div class="card-body">
+                    <h5 style="color: #64b5f6 !important;">Товаров в каталоге</h5>
+                    <h2 id="totalProducts" class="display-5" style="color: white !important;">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" style="background: rgba(233, 30, 99, 0.2); border-bottom: 2px solid #e91e63;">
+                    <h5 style="color: white !important;">Дневная выручка (последние 30 дней)</h5>
+                </div>
+                <div class="card-body" style="background: rgba(30, 41, 59, 0.5);">
+                    <canvas id="dailyChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header" style="background: rgba(233, 30, 99, 0.2); border-bottom: 2px solid #e91e63;">
+                    <h5 style="color: white !important;">Месячная выручка</h5>
+                </div>
+                <div class="card-body" style="background: rgba(30, 41, 59, 0.5);">
+                    <canvas id="monthlyChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="/Admin/Dashboard" class="btn btn-secondary">Назад</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        fetch('/Admin/GetAnalyticsData')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('totalRevenue').textContent = data.totalRevenue.toLocaleString('ru-RU') + ' ₽';
+                document.getElementById('totalOrders').textContent = data.orders;
+                document.getElementById('totalProducts').textContent = data.products;
+
+                new Chart(document.getElementById('dailyChart'), {
+                    type: 'line',
+                    data: {
+                        labels: data.daily.map(d => d.date),
+                        datasets: [{
+                            label: 'Выручка, ₽',
+                            data: data.daily.map(d => d.revenue),
+                            borderColor: '#e91e63',
+                            backgroundColor: 'rgba(233, 30, 99, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }, {
+                            label: 'Заказы',
+                            data: data.daily.map(d => d.orderCount),
+                            borderColor: '#64b5f6',
+                            backgroundColor: 'rgba(100, 181, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            yAxisID: 'y1'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#e2e8f0',
+                                    font: { size: 14 }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: '#94a3b8' },
+                                grid: { color: 'rgba(255,255,255,0.1)' }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: { color: '#94a3b8', callback: v => v.toLocaleString('ru-RU') + ' ₽' },
+                                grid: { color: 'rgba(255,255,255,0.1)' }
+                            },
+                            y1: {
+                                position: 'right',
+                                beginAtZero: true,
+                                ticks: { color: '#64b5f6', stepSize: 1 },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+
+                new Chart(document.getElementById('monthlyChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: data.monthly.map(m => m.month),
+                        datasets: [{
+                            label: 'Выручка, ₽',
+                            data: data.monthly.map(m => m.revenue),
+                            backgroundColor: '#e91e63',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: '#e2e8f0',
+                                    font: { size: 14 }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: '#94a3b8' },
+                                grid: { color: 'rgba(255,255,255,0.1)' }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: { color: '#94a3b8', callback: v => v.toLocaleString('ru-RU') + ' ₽' },
+                                grid: { color: 'rgba(255,255,255,0.1)' }
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+}

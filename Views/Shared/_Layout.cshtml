@@ -1,0 +1,259 @@
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var userRole = HttpContextAccessor.HttpContext?.Session.GetString("role");
+    var isLoggedIn = !string.IsNullOrEmpty(userRole);
+    bool isEmployeeOrAdmin = userRole == "Admin" || userRole == "Employee";
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Атэна Цветы</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+    <canvas id="petalsCanvas"></canvas>
+
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/images/logotip.png" alt="Атэна">
+                <span>Атэна</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Catalog">Каталог</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="/Cart">
+                            <i class="bi bi-cart3"></i> Корзина
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                    </li>
+
+                    @if (isLoggedIn)
+                    {
+                        <!-- Личный кабинет -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Profile">
+                                <i class="bi bi-person-circle"></i> Кабинет
+                            </a>
+                        </li>
+
+                        <!-- Панель управления (только для сотрудников и админов) -->
+                        @if (isEmployeeOrAdmin)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                                    <i class="bi bi-gear-fill"></i> Панель
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    @if (userRole == "Admin")
+                                    {
+                                        <li><a class="dropdown-item" href="/Admin/Dashboard">Дашборд</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Products">Товары</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Orders">Заказы</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Categories">Категории</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Analytics">Аналитика</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Users">Пользователи</a></li>
+                                        <li><a class="dropdown-item" href="/Admin/Logs">Логи</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a class="dropdown-item" href="/Employee/Dashboard">Дашборд</a></li>
+                                        <li><a class="dropdown-item" href="/Employee/Products">Товары</a></li>
+                                        <li><a class="dropdown-item" href="/Employee/Orders">Заказы</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+                        <!-- Выход -->
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="/Account/Logout">
+                                <i class="bi bi-box-arrow-right"></i> Выход
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Account/Login">
+                                <i class="bi bi-box-arrow-in-right"></i> Вход
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main style="min-height: 100vh; padding-top: 80px;">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>
+                        <img src="/images/logotip.png" alt="Атэна" style="height: 40px; width: auto; margin-right: 10px; vertical-align: middle;">
+                        Атэна
+                    </h5>
+                    <p>Свежие цветы с любовью</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>Посёлок Дедуровка, 2</p>
+                    <p>Оренбургский район, Оренбургская область</p>
+                    <p>&copy; 2026 Тепличное хозяйство "Атэна"</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальное окно добавления в корзину -->
+    <div class="modal fade" id="addToCartModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" style="color: white;">Добавить в корзину</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p id="modalProductName" class="mb-4"></p>
+                    <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
+                        <button class="btn btn-outline-primary" onclick="modalChangeQty(-1)">-</button>
+                        <input type="number" id="modalQuantity" value="1" min="1" class="form-control text-center" style="width: 80px;">
+                        <button class="btn btn-outline-primary" onclick="modalChangeQty(1)">+</button>
+                    </div>
+                    <button class="btn btn-primary w-100" onclick="confirmAddToCart()">Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentProductId = 0;
+
+        function showAddToCartModal(id, name) {
+            currentProductId = id;
+            document.getElementById('modalProductName').textContent = name;
+            document.getElementById('modalQuantity').value = 1;
+            new bootstrap.Modal(document.getElementById('addToCartModal')).show();
+        }
+
+        function modalChangeQty(delta) {
+            let input = document.getElementById('modalQuantity');
+            let qty = parseInt(input.value) + delta;
+            if (qty < 1) qty = 1;
+            input.value = qty;
+        }
+
+        function confirmAddToCart() {
+            let qty = parseInt(document.getElementById('modalQuantity').value);
+            bootstrap.Modal.getInstance(document.getElementById('addToCartModal')).hide();
+
+            fetch('/Cart/Add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `productId=${currentProductId}&quantity=${qty}`
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    updateCartCount();
+                }
+            });
+        }
+
+        function updateCartCount() {
+            fetch('/Cart/Count')
+                .then(r => r.json())
+                .then(data => {
+                    var el = document.getElementById('cartCount');
+                    if (el) el.textContent = data.count;
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+
+            const petalsCanvas = document.getElementById('petalsCanvas');
+            const ctx = petalsCanvas.getContext('2d');
+
+            petalsCanvas.width = window.innerWidth;
+            petalsCanvas.height = window.innerHeight;
+
+            let petals = [];
+            for (let i = 0; i < 60; i++) {
+                petals.push({
+                    x: Math.random() * petalsCanvas.width,
+                    y: Math.random() * petalsCanvas.height,
+                    r: Math.random() * 5 + 2,
+                    speed: Math.random() * 1.5 + 0.5,
+                    opacity: Math.random() * 0.3 + 0.1
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
+                petals.forEach(p => {
+                    ctx.beginPath();
+                    ctx.fillStyle = `rgba(255, 182, 193, ${p.opacity})`;
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                update();
+                requestAnimationFrame(draw);
+            }
+
+            function update() {
+                petals.forEach(p => {
+                    p.y += p.speed;
+                    if (p.y > petalsCanvas.height) {
+                        p.y = -10;
+                        p.x = Math.random() * petalsCanvas.width;
+                    }
+                });
+            }
+
+            draw();
+
+            window.addEventListener('resize', () => {
+                petalsCanvas.width = window.innerWidth;
+                petalsCanvas.height = window.innerHeight;
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

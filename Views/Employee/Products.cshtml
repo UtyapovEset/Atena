@@ -1,0 +1,94 @@
+﻿@model IEnumerable<WebAtena.Models.Product>
+@{
+    ViewData["Title"] = "Управление товарами";
+    Layout = "_Layout";
+    var culture = new System.Globalization.CultureInfo("ru-RU");
+}
+
+<div class="container">
+    <h2 class="mb-4">Управление товарами</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="mb-3">
+        <a href="/Employee/CreateProduct" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Добавить товар
+        </a>
+        <a href="/Employee/Dashboard" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Назад в панель
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Товаров пока нет.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Изображение</th>
+                        <th>Название</th>
+                        <th>Категория</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(product.ImageUrl))
+                                {
+                                    <img src="@product.ImageUrl" alt="@product.Name" style="width:50px;height:50px;object-fit:cover;border-radius:8px;">
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Нет фото</span>
+                                }
+                            </td>
+                            <td><strong>@product.Name</strong></td>
+                            <td>@(product.Category?.Name ?? "Без категории")</td>
+                            <td>@product.Price.ToString("C", culture)</td>
+                            <td>@product.Stock шт.</td>
+                            <td>
+                                @if (product.Stock > 0)
+                                {
+                                    <span class="badge bg-success">В наличии</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Нет в наличии</span>
+                                }
+                            </td>
+                            <td>
+                                <a href="/Employee/EditProduct/@product.Id" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-pencil"></i> Ред.
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

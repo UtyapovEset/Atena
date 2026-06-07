@@ -1,0 +1,105 @@
+@model WebAtena.Models.Order
+@{
+    ViewData["Title"] = "Оформление заказа";
+}
+
+<div class="container pt-5">
+    <h2 class="mb-4 text-white fw-bold">Оформление заказа</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="row g-4">
+            <!-- ЛЕВАЯ КОЛОНКА -->
+            <div class="col-md-6">
+                <div class="card shadow-lg border-0">
+
+                    <div class="card-header bg-transparent border-bottom border-danger">
+                        <h5 class="mb-0 text-white fw-semibold">Контактные данные</h5>
+                    </div>
+
+                    <div class="card-body text-light">
+
+                        <div class="mb-3">
+                            <label asp-for="CustomerName" class="form-label text-light">
+                                Ваше имя <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="CustomerName" class="form-control" required />
+                            <span asp-validation-for="CustomerName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Phone" class="form-label text-light">
+                                Телефон <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Phone" class="form-control" required placeholder="+7 (___) ___-__-__" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label text-light">Email</label>
+                            <input asp-for="Email" class="form-control" type="email" placeholder="example@mail.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Comment" class="form-label text-light">Комментарий к заказу</label>
+                            <textarea asp-for="Comment" class="form-control" rows="4" placeholder="Ваши пожелания..."></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-check-circle"></i> Подтвердить заказ
+                            </button>
+
+                            <a href="/Cart" class="btn btn-outline-primary">
+                                <i class="bi bi-arrow-left"></i> Вернуться в корзину
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРАВАЯ КОЛОНКА -->
+            <div class="col-md-6">
+                <div class="card shadow-lg border-0">
+
+                    <div class="card-header bg-transparent border-bottom border-info">
+                        <h5 class="mb-0 text-white fw-semibold">Информация</h5>
+                    </div>
+
+                    <div class="card-body text-light">
+
+                        <p class="text-light">
+                            Мы работаем ежедневно с 9:00 до 20:00.
+                        </p>
+
+                        <hr class="border-secondary">
+
+                        <p class="text-light">
+                            <i class="bi bi-shield-lock"></i> Все данные защищены
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.querySelector('input[name="Phone"]').addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            e.target.value = !x[2] ? x[1] :
+                '+7 (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+        });
+    </script>
+}

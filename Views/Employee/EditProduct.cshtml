@@ -1,0 +1,111 @@
+﻿@model WebAtena.Models.Product
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Редактирование товара";
+}
+
+<div class="container pt-4">
+    <h2 class="mb-4" style="color: white;">Редактирование товара</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Название *</label>
+                    <input asp-for="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ShortDescription" class="form-label">Краткое описание</label>
+                    <textarea asp-for="ShortDescription" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Полное описание</label>
+                    <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label">Цена *</label>
+                    <input asp-for="Price" class="form-control" type="number" step="0.01" required />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Stock" class="form-label">Количество на складе *</label>
+                    <input asp-for="Stock" class="form-control" type="number" min="0" required />
+                    <small class="text-muted">Если 0 - товар будет отображаться как "Нет в наличии"</small>
+                    <span asp-validation-for="Stock" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CategoryId" class="form-label">Категория *</label>
+                    <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                        <option value="">-- Выберите категорию --</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Текущее изображение</label>
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <div><img src="@Model.ImageUrl" style="max-width:200px;" class="img-thumbnail" /></div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">Нет изображения</p>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Новое изображение</label>
+                    <input type="file" name="image" class="form-control" accept="image/*" />
+                    <small class="text-muted">Оставьте пустым, чтобы сохранить текущее</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                <a href="/Employee/Products" class="btn btn-outline-primary ms-2">Отмена</a>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card" style="background: #41414f; border: 1px solid #334155;">
+                    <div class="card-header" style="background: rgba(33, 150, 243, 0.2); border-bottom: 2px solid #2196f3;">
+                        <h5 class="mb-0" style="color: white !important;"><i class="bi bi-box-seam"></i> Информация о количестве</h5>
+                    </div>
+                    <div class="card-body">
+                        <p style="color: #ffffff !important;">Текущее количество на складе: <strong class="fs-4" style="color: #ffffff !important;">@Model.Stock шт.</strong></p>
+                        <p style="color: #ffffff !important;">
+                            Статус:
+                            @if (Model.Stock > 0)
+                            {
+                                <span class="badge badge-success">В наличии (@Model.Stock шт.)</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">Нет в наличии</span>
+                            }
+                        </p>
+                        <hr style="border-color: rgba(255,255,255,0.3);">
+                        <p class="small" style="color: #ffffff;">
+                            <i class="bi bi-info-circle"></i> При оформлении заказа количество автоматически уменьшается на 1 за каждый товар.
+                        </p>
+                        <div class="alert alert-warning small" style="color: #ffa726 !important; background: rgba(255, 167, 38, 0.1); border-color: rgba(255, 167, 38, 0.3);">
+                            <i class="bi bi-exclamation-triangle"></i> Внимание: если количество станет 0, товар перестанет отображаться как доступный для заказа.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

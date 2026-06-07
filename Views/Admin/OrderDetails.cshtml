@@ -1,0 +1,101 @@
+﻿@model WebAtena.Models.Order
+@{
+    ViewData["Title"] = $"Заказ {Model.OrderNumber}";
+    Layout = "_Layout";
+    var culture = new System.Globalization.CultureInfo("ru-RU");
+}
+
+<div class="container">
+    <h2 class="mb-4">Заказ @Model.OrderNumber</h2>
+
+    <div class="mb-3">
+        <a href="/Admin/Orders" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Назад к списку заказов
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3 order-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0 text-white">Информация о заказе</h5>
+                </div>
+                <div class="card-body text-light">
+                    <p>
+                        <strong class="text-white">Статус:</strong>
+                        <span class="badge @(Model.Status == "Новый" ? "bg-warning text-dark" : Model.Status == "В обработке" ? "bg-info text-dark" : Model.Status == "Выполнен" ? "bg-success" : "bg-danger")">
+                            @Model.Status
+                        </span>
+                    </p>
+                    <p><strong class="text-white">Дата заказа:</strong> <span class="text-light">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</span></p>
+                    <p><strong class="text-white">Клиент:</strong> <span class="text-light">@Model.CustomerName</span></p>
+                    <p><strong class="text-white">Телефон:</strong> <span class="text-light">@Model.Phone</span></p>
+                    <p><strong class="text-white">Email:</strong> <span class="text-light">@Model.Email</span></p>
+                    <p><strong class="text-white">Комментарий:</strong> <span class="text-light">@Model.Comment</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Состав заказа</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Товар</th>
+                                    <th class="text-center">Кол-во</th>
+                                    <th class="text-end">Цена</th>
+                                    <th class="text-end">Сумма</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td>@item.Product?.Name</td>
+                                        <td class="text-center">@item.Quantity</td>
+                                        <td class="text-end">@item.Price.ToString("C", culture)</td>
+                                        <td class="text-end">@((item.Quantity * item.Price).ToString("C", culture))</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td colspan="3" class="text-end">Итого:</td>
+                                    <td class="text-end">@Model.Items.Sum(i => i.Quantity * i.Price).ToString("C", culture)</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Изменить статус</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/Admin/UpdateOrderStatus" class="row g-3 align-items-end">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <div class="col-auto">
+                            <select name="status" class="form-select">
+                                <option value="Новый" selected="@(Model.Status == "Новый")">Новый</option>
+                                <option value="В обработке" selected="@(Model.Status == "В обработке")">В обработке</option>
+                                <option value="Выполнен" selected="@(Model.Status == "Выполнен")">Выполнен</option>
+                                <option value="Отменен" selected="@(Model.Status == "Отменен")">Отменен</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Обновить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
