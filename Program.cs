@@ -11,17 +11,14 @@ namespace WebAtena
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            var connectionString =
+                builder.Configuration.GetConnectionString("DefaultConnection");
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-     options.UseSqlite(connectionString));
+                options.UseSqlite(connectionString));
 
-            Console.WriteLine("Current dir: " + Directory.GetCurrentDirectory());
-            Console.WriteLine("DB exists: " + File.Exists("AthenaFlowers.db"));
-            Console.WriteLine("DB size: " + new FileInfo("AthenaFlowers.db").Length);
-            Console.WriteLine("DB path:");
-            Console.WriteLine(Path.GetFullPath("AthenaFlowers.db"));
-
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
@@ -32,6 +29,7 @@ namespace WebAtena
             .AddDefaultTokenProviders();
 
             builder.Services.AddDistributedMemoryCache();
+
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -40,6 +38,7 @@ namespace WebAtena
             });
 
             builder.Services.AddHttpClient<RecommendationService>();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -52,6 +51,7 @@ namespace WebAtena
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseSession();
@@ -65,29 +65,47 @@ namespace WebAtena
 
             using (var scope = app.Services.CreateScope())
             {
-                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var db = scope.ServiceProvider
+                    .GetRequiredService<ApplicationDbContext>();
+
                 db.Database.Migrate();
             }
 
+            CreateRoles(app).GetAwaiter().GetResult();
             CreateAdmin(app).GetAwaiter().GetResult();
 
-            using (var scope = app.Services.CreateScope())
-            {
-                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-                Console.WriteLine("Products: " + db.Products.Count());
-                Console.WriteLine("Categories: " + db.Categories.Count());
-            }
-
             app.Run();
+        }
+
+        private static async Task CreateRoles(WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+
+            var roleManager =
+                scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            string[] roles =
+            {
+                "Admin",
+                "Employee",
+                "Customer"
+            };
+
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
         }
 
         private static async Task CreateAdmin(WebApplication app)
         {
             using var scope = app.Services.CreateScope();
 
-            var userManager = scope.ServiceProvider
-                .GetRequiredService<UserManager<ApplicationUser>>();
+            var userManager =
+                scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             var admin = await userManager.FindByNameAsync("admin");
 
@@ -96,11 +114,17 @@ namespace WebAtena
                 admin = new ApplicationUser
                 {
                     UserName = "admin",
+                    Email = "admin@site.com",
                     FullName = "Администратор",
                     Role = "Admin"
                 };
 
-                await userManager.CreateAsync(admin, "admin123");
+                var result = await userManager.CreateAsync(admin, "admin123");
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "Admin");
+                }
             }
         }
     }
